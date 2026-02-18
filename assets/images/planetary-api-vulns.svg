@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="480" viewBox="0 0 800 480">
+
+  <!-- Background -->
+  <rect width="800" height="480" fill="#0f1117"/>
+
+  <!-- Title -->
+  <text x="400" y="36" text-anchor="middle" fill="#e5e7eb" font-family="ui-monospace,monospace" font-size="15" font-weight="bold">Four Deliberately Vulnerable Endpoints</text>
+  <text x="400" y="56" text-anchor="middle" fill="#6b7280" font-family="ui-monospace,monospace" font-size="11">Each has a secure counterpart in the same codebase</text>
+
+  <!-- ══════════════════════════════════
+       CARD 1 — SQL Injection (top-left)
+       ══════════════════════════════════ -->
+  <rect x="30" y="74" width="360" height="178" rx="8" fill="#1a0f0f" stroke="#ef4444" stroke-width="1.5"/>
+  <!-- Badge -->
+  <rect x="46" y="90" width="120" height="20" rx="4" fill="#7f1d1d"/>
+  <text x="106" y="104" text-anchor="middle" fill="#fca5a5" font-family="ui-monospace,monospace" font-size="11" font-weight="bold">SQL INJECTION</text>
+  <!-- OWASP ref -->
+  <text x="296" y="104" text-anchor="end" fill="#6b7280" font-family="ui-monospace,monospace" font-size="10">OWASP A03</text>
+  <!-- Endpoint -->
+  <text x="46" y="130" fill="#f87171" font-family="ui-monospace,monospace" font-size="13" font-weight="bold">GET /get_planet_sqlmap</text>
+  <!-- Code block -->
+  <rect x="46" y="142" width="328" height="54" rx="4" fill="#0f0f0f"/>
+  <text x="58" y="160" fill="#4ade80" font-family="ui-monospace,monospace" font-size="11">"SELECT * FROM planets WHERE name = '"</text>
+  <text x="58" y="177" fill="#4ade80" font-family="ui-monospace,monospace" font-size="11">+ planet_name + "'"</text>
+  <!-- Description -->
+  <text x="46" y="214" fill="#9ca3af" font-family="ui-monospace,monospace" font-size="11">Raw string concat — point sqlmap at it and watch</text>
+  <text x="46" y="230" fill="#9ca3af" font-family="ui-monospace,monospace" font-size="11">it dump the whole table.</text>
+  <!-- Fix pill -->
+  <rect x="46" y="238" width="170" height="18" rx="4" fill="#14532d"/>
+  <text x="131" y="250" text-anchor="middle" fill="#86efac" font-family="ui-monospace,monospace" font-size="10">Fix: ORM parameterised queries</text>
+
+  <!-- ═════════════════════════════════════
+       CARD 2 — Command Injection (top-right)
+       ═════════════════════════════════════ -->
+  <rect x="410" y="74" width="360" height="178" rx="8" fill="#1a0f0f" stroke="#ef4444" stroke-width="1.5"/>
+  <rect x="426" y="90" width="156" height="20" rx="4" fill="#7f1d1d"/>
+  <text x="504" y="104" text-anchor="middle" fill="#fca5a5" font-family="ui-monospace,monospace" font-size="11" font-weight="bold">COMMAND INJECTION</text>
+  <text x="676" y="104" text-anchor="end" fill="#6b7280" font-family="ui-monospace,monospace" font-size="10">OWASP A03</text>
+  <text x="426" y="130" fill="#f87171" font-family="ui-monospace,monospace" font-size="13" font-weight="bold">GET /dbsize/&lt;dbfile&gt;</text>
+  <rect x="426" y="142" width="328" height="54" rx="4" fill="#0f0f0f"/>
+  <text x="438" y="160" fill="#4ade80" font-family="ui-monospace,monospace" font-size="11">os.popen(</text>
+  <text x="438" y="177" fill="#4ade80" font-family="ui-monospace,monospace" font-size="11">  f"du -sh {dbfile}").read()</text>
+  <text x="426" y="214" fill="#9ca3af" font-family="ui-monospace,monospace" font-size="11">Pass "db.sqlite; cat /etc/passwd" — shell runs</text>
+  <text x="426" y="230" fill="#9ca3af" font-family="ui-monospace,monospace" font-size="11">both commands without question.</text>
+  <rect x="426" y="238" width="202" height="18" rx="4" fill="#14532d"/>
+  <text x="527" y="250" text-anchor="middle" fill="#86efac" font-family="ui-monospace,monospace" font-size="10">Fix: subprocess with arg list, no shell=True</text>
+
+  <!-- ═══════════════════════════════
+       CARD 3 — SSRF (bottom-left)
+       ═══════════════════════════════ -->
+  <rect x="30" y="272" width="360" height="178" rx="8" fill="#1a0f0f" stroke="#ef4444" stroke-width="1.5"/>
+  <rect x="46" y="288" width="42" height="20" rx="4" fill="#7f1d1d"/>
+  <text x="67" y="302" text-anchor="middle" fill="#fca5a5" font-family="ui-monospace,monospace" font-size="11" font-weight="bold">SSRF</text>
+  <text x="296" y="302" text-anchor="end" fill="#6b7280" font-family="ui-monospace,monospace" font-size="10">OWASP A10</text>
+  <text x="46" y="328" fill="#f87171" font-family="ui-monospace,monospace" font-size="13" font-weight="bold">GET /fetch?url=...</text>
+  <rect x="46" y="340" width="328" height="54" rx="4" fill="#0f0f0f"/>
+  <text x="58" y="358" fill="#4ade80" font-family="ui-monospace,monospace" font-size="11">url = request.args.get("url")</text>
+  <text x="58" y="375" fill="#4ade80" font-family="ui-monospace,monospace" font-size="11">response = requests.get(url)</text>
+  <text x="46" y="412" fill="#9ca3af" font-family="ui-monospace,monospace" font-size="11">No allowlist. Aim it at cloud IMDS and pull</text>
+  <text x="46" y="428" fill="#9ca3af" font-family="ui-monospace,monospace" font-size="11">credentials the caller was never meant to see.</text>
+  <rect x="46" y="436" width="172" height="18" rx="4" fill="#14532d"/>
+  <text x="132" y="448" text-anchor="middle" fill="#86efac" font-family="ui-monospace,monospace" font-size="10">Fix: URL allowlist before fetching</text>
+
+  <!-- ══════════════════════════════════════
+       CARD 4 — Path Traversal (bottom-right)
+       ══════════════════════════════════════ -->
+  <rect x="410" y="272" width="360" height="178" rx="8" fill="#1a0f0f" stroke="#ef4444" stroke-width="1.5"/>
+  <rect x="426" y="288" width="130" height="20" rx="4" fill="#7f1d1d"/>
+  <text x="491" y="302" text-anchor="middle" fill="#fca5a5" font-family="ui-monospace,monospace" font-size="11" font-weight="bold">PATH TRAVERSAL</text>
+  <text x="676" y="302" text-anchor="end" fill="#6b7280" font-family="ui-monospace,monospace" font-size="10">OWASP A01</text>
+  <text x="426" y="328" fill="#f87171" font-family="ui-monospace,monospace" font-size="13" font-weight="bold">GET /read_log?filename=...</text>
+  <rect x="426" y="340" width="328" height="54" rx="4" fill="#0f0f0f"/>
+  <text x="438" y="358" fill="#4ade80" font-family="ui-monospace,monospace" font-size="11">with open(</text>
+  <text x="438" y="375" fill="#4ade80" font-family="ui-monospace,monospace" font-size="11">  f"/var/log/{filename}") as f:</text>
+  <text x="426" y="412" fill="#9ca3af" font-family="ui-monospace,monospace" font-size="11">../../etc/passwd walks right past the prefix.</text>
+  <text x="426" y="428" fill="#9ca3af" font-family="ui-monospace,monospace" font-size="11">The /var/log/ guard is cosmetic, not enforced.</text>
+  <rect x="426" y="436" width="202" height="18" rx="4" fill="#14532d"/>
+  <text x="527" y="448" text-anchor="middle" fill="#86efac" font-family="ui-monospace,monospace" font-size="10">Fix: resolve real path, check base prefix</text>
+
+  <!-- Footer -->
+  <text x="400" y="470" text-anchor="middle" fill="#374151" font-family="ui-monospace,monospace" font-size="10">Green pills show the secure counterpart fix — both versions live in app.py</text>
+</svg>

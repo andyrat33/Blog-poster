@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="300" viewBox="0 0 800 300">
+
+  <defs>
+    <clipPath id="clip1">
+      <rect x="40" y="98" width="306" height="160"/>
+    </clipPath>
+    <clipPath id="clip2">
+      <rect x="450" y="98" width="306" height="160"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="300" fill="#0f1117"/>
+
+  <!-- Title -->
+  <text x="400" y="34" text-anchor="middle" fill="#e5e7eb" font-family="ui-monospace,monospace" font-size="15" font-weight="bold">AppSec Workshop — Two-Phase Session Structure</text>
+
+  <!-- ══════════════════
+       PHASE 1 — Exploit
+       ══════════════════ -->
+  <rect x="40" y="58" width="310" height="200" rx="10" fill="#1c0a00" stroke="#f97316" stroke-width="2"/>
+
+  <!-- Phase label -->
+  <rect x="40" y="58" width="310" height="40" rx="10" fill="#7c2d12"/>
+  <rect x="40" y="78" width="310" height="20" fill="#7c2d12"/>
+  <text x="195" y="84" text-anchor="middle" fill="#fed7aa" font-family="ui-monospace,monospace" font-size="13" font-weight="bold">Phase 1 — Active Exploitation</text>
+
+  <!-- Items (clipped to card) -->
+  <g clip-path="url(#clip1)">
+    <text x="68" y="124" fill="#fb923c" font-family="ui-monospace,monospace" font-size="12">▸  Fire requests at each endpoint</text>
+    <text x="68" y="148" fill="#fb923c" font-family="ui-monospace,monospace" font-size="12">▸  Tools: sqlmap, Burp Suite, curl</text>
+    <text x="68" y="172" fill="#fb923c" font-family="ui-monospace,monospace" font-size="12">▸  Watch real data get extracted</text>
+    <text x="68" y="196" fill="#fb923c" font-family="ui-monospace,monospace" font-size="12">▸  Postman collection included</text>
+  </g>
+
+  <!-- Divider -->
+  <line x1="68" y1="214" x2="322" y2="214" stroke="#431407" stroke-width="1"/>
+  <text x="195" y="234" text-anchor="middle" fill="#9a3412" font-family="ui-monospace,monospace" font-size="11">Goal: feel the vuln, not just read about it</text>
+
+  <!-- ══════════════ ARROW ══════════════ -->
+  <text x="400" y="158" text-anchor="middle" fill="#4b5563" font-family="ui-monospace,monospace" font-size="28">→</text>
+  <text x="400" y="178" text-anchor="middle" fill="#374151" font-family="ui-monospace,monospace" font-size="10">then</text>
+
+  <!-- ══════════════════════
+       PHASE 2 — Code Review
+       ══════════════════════ -->
+  <rect x="450" y="58" width="310" height="200" rx="10" fill="#0c1a2e" stroke="#3b82f6" stroke-width="2"/>
+
+  <!-- Phase label -->
+  <rect x="450" y="58" width="310" height="40" rx="10" fill="#1e3a5f"/>
+  <rect x="450" y="78" width="310" height="20" fill="#1e3a5f"/>
+  <text x="605" y="84" text-anchor="middle" fill="#bfdbfe" font-family="ui-monospace,monospace" font-size="13" font-weight="bold">Phase 2 — Code Review</text>
+
+  <!-- Items (clipped to card) -->
+  <g clip-path="url(#clip2)">
+    <text x="478" y="124" fill="#60a5fa" font-family="ui-monospace,monospace" font-size="12">▸  Open app.py, find the same vulns</text>
+    <text x="478" y="148" fill="#60a5fa" font-family="ui-monospace,monospace" font-size="12">▸  Compare vuln vs. secure route</text>
+    <text x="478" y="172" fill="#60a5fa" font-family="ui-monospace,monospace" font-size="12">▸  The diff is 3–4 lines per fix</text>
+    <text x="478" y="196" fill="#60a5fa" font-family="ui-monospace,monospace" font-size="12">▸  Map dynamic findings to source</text>
+  </g>
+
+  <!-- Divider -->
+  <line x1="478" y1="214" x2="732" y2="214" stroke="#172554" stroke-width="1"/>
+  <text x="605" y="234" text-anchor="middle" fill="#1d4ed8" font-family="ui-monospace,monospace" font-size="11">Goal: build muscle memory for code review</text>
+
+  <!-- Footer -->
+  <text x="400" y="282" text-anchor="middle" fill="#374151" font-family="ui-monospace,monospace" font-size="10">Dynamic testing + static analysis together — neither alone is enough</text>
+</svg>

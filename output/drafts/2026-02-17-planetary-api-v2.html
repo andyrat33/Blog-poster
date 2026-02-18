@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Securing a Flask API pipeline with Semgrep and OWASP checks</title>
+</head>
+<body>
+
+<h1>Securing a Flask API pipeline with Semgrep and OWASP checks</h1>
+
+<p>
+  Most teams I've seen bolt security scanning onto their CI/CD pipeline as an afterthought. A checkbox. Something that satisfies a compliance requirement but rarely gets looked at. What I wanted to build with <a href="https://github.com/andyrat33/planetary-api">planetary-api</a> was a pipeline where the security scanning is the point. The app has deliberately vulnerable endpoints, which means when Semgrep or OWASP Dependency-Check runs against it, you <em>know</em> it should find things. That makes it useful for understanding what good pipeline output actually looks like before you run the same tooling against a real codebase.
+</p>
+
+<p>
+  This post covers the Jenkins pipeline: what runs, in what order, and what each stage is designed to catch.
+</p>
+
+<h2>The pipeline structure</h2>
+
+<p>
+  The pipeline runs four main stages. It starts with a Postman smoke test to confirm the API is responding before wasting time on scans. Then Semgrep SAST (Static Application Security Testing), OWASP Dependency-Check, and finally a CycloneDX SBOM (Software Bill of Materials) generated and shipped to Dependency Track.
+</p>
+
+<p>
+  The smoke test and SAST stage run in parallel where possible. SAST analyses source code and doesn't need a running API, so there's no reason to wait. Dependency scanning runs sequentially after SAST, mainly to keep the Jenkins output readable rather than for any technical reason.
+</p>
+
+<h2>Postman / Newman smoke tests</h2>
+
+<p>
+  Before any security tooling fires, Newman (the CLI runner for Postman collections) runs a set of smoke tests against the API. It covers the core authentication flows, planet retrieval, and a handful of the secure endpoints. If the API isn't up or a core route has broken, the pipeline fails here rather than generating scan results against a broken target.
+</p>
+
+<pre><code>newman run postman/planetary-api.postman_collection.json \
+  --environment postman/local.postman_environment.json \
+  --reporters cli,junit \
+  --reporter-junit-export results/newman-results.xml
+</code></pre>
+
+<p>
+  The JUnit output gets picked up by Jenkins for test result trending. It's a small thing, but it means you can see at a glance whether API behaviour has changed between builds.
+</p>
+
+<h2>Semgrep SAST</h2>
+
+<p>
+  Semgrep is the main static analysis tool here. It runs against the Python source using the default Python ruleset and the OWASP Top 10 rules:
+</p>
+
+<pre><code>semgrep --config=p/python --config=p/owasp-top-ten \
+  --json --output=results/semgrep-results.json .
+</code></pre>
+
+<p>
+  Because the app has intentional vulnerabilities, Semgrep actually finds real issues rather than producing a clean report. The SQL injection in <code>/get_planet_sqlmap</code> triggers a finding about string concatenation in SQL queries. The command injection in <code>/dbsize/&lt;dbfile&gt;</code> surfaces as an <code>os.popen</code> call with unsanitised input. The SSRF endpoint gets flagged for making HTTP requests with user-controlled URLs.
+</p>
+
+<p>
+  That's what makes this useful as a training reference. You can look at the Semgrep output and map each finding directly to the vulnerable code, then compare it to the secure counterpart to see what the fix looks like at the source level. I've found that walking engineers through a Semgrep report on a codebase they already understand is a far better exercise than dumping findings from an unfamiliar project on them.
+</p>
+
+<p>
+  Each finding includes a rule ID, a message explaining the risk, and the exact line of code. Dense output, but it's informative rather than noisy once you know what you're looking at.
+</p>
+
+<h2>OWASP Dependency-Check</h2>
+
+<p>
+  Semgrep looks at your code. OWASP Dependency-Check looks at your dependencies. It pulls the CVE (Common Vulnerabilities and Exposures) database from NIST and checks every package in <code>requirements.txt</code> against it.
+</p>
+
+<pre><code>dependency-check --project "planetary-api" \
+  --scan . \
+  --format JSON \
+  --format HTML \
+  --out results/dependency-check/
+</code></pre>
+
+<p>
+  For a Flask application the dependency surface is worth paying attention to. Flask, SQLAlchemy, Marshmallow, Flask-JWT-Extended, requests — each of these has a CVE history. Dependency-Check flags anything with a known vulnerability and gives you the CVE identifier, the severity score, and a description of the issue.
+</p>
+
+<p>
+  The HTML report is the one I share with development teams. It's readable without needing a security background. The JSON output goes into the pipeline artefacts for automated processing or feeding into a security dashboard.
+</p>
+
+<p>
+  One practical gotcha: the first run in a fresh Jenkins environment takes several minutes because it downloads the NVD (National Vulnerability Database) feed. Cache that directory between builds. Without caching, a routine pipeline run turns into a ten-minute wait. With caching, it's a thirty-second check.
+</p>
+
+<h2>CycloneDX SBOM and Dependency Track</h2>
+
+<p>
+  The final stage generates a CycloneDX SBOM, a structured inventory of everything the application depends on down to transitive dependencies, and submits it to a Dependency Track instance.
+</p>
+
+<pre><code>cyclonedx-py -r requirements.txt -o results/sbom.json --format json
+</code></pre>
+
+<p>
+  The distinction between Dependency-Check and Dependency Track is worth being clear on. Dependency-Check runs at build time against a snapshot of the NVD. Dependency Track takes the SBOM and monitors it continuously, so if a new CVE drops against a package you're already using, you find out without triggering a new build. For anything running in production that ongoing visibility matters.
+</p>
+
+<p>
+  The SBOM upload is a POST to the Dependency Track API:
+</p>
+
+<pre><code>curl -X POST http://dependency-track:8080/api/v1/bom \
+  -H "X-Api-Key: ${DT_API_KEY}" \
+  -H "Content-Type: multipart/form-data" \
+  -F "autoCreate=true" \
+  -F "projectName=planetary-api" \
+  -F "projectVersion=1.0" \
+  -F "bom=@results/sbom.json"
+</code></pre>
+
+<p>
+  If you're not running Dependency Track yet, generating and archiving the SBOM file is still worth doing. It's a record of exactly what was in the build at any given point, which becomes important when a vulnerability is disclosed after the fact and you need to know whether you were affected.
+</p>
+
+<h2>Adapting this to your own Flask project</h2>
+
+<p>
+  None of this is specific to planetary-api. The pattern works for any Flask application: Newman smoke tests first to confirm the target is behaving, Semgrep for code-level vulnerability detection, Dependency-Check for known CVEs in your packages, and a CycloneDX SBOM for ongoing monitoring.
+</p>
+
+<p>
+  If you're starting from scratch, Semgrep is the highest-value first step. Drop it into your pipeline, point it at your source with <code>p/python</code> and <code>p/owasp-top-ten</code>, and look at what it finds. You don't need Dependency Track on day one. Start with Dependency-Check generating an HTML report and build from there.
+</p>
+
+<p>
+  One thing I'd push back on: don't make failing scans pipeline blockers straight away if your team hasn't seen this kind of output before. The first scan against a real codebase often produces a lot of noise. Immediately blocking deployments on every finding causes teams to start ignoring the tooling. Start with reporting, triage the findings, suppress the false positives, and add blocking rules once people understand what the tool is actually telling them.
+</p>
+
+<h2>Wrapping up</h2>
+
+<p>
+  The planetary-api Jenkins pipeline is a working example of what a security-focused CI/CD setup looks like for a Flask project. It's not theoretical — run it and you get real findings, because the app has real vulnerabilities in it by design. That's what makes it worth referencing when you're building the same pattern for your own projects.
+</p>
+
+<p>
+  The repo is at <a href="https://github.com/andyrat33/planetary-api">github.com/andyrat33/planetary-api</a>.
+</p>
+
+</body>
+</html>
