@@ -1,6 +1,8 @@
 # Secrets — never commit these
 credentials.json
 token.json
+linkedin_credentials.json
+linkedin_token.json
 
 # Python
 __pycache__/

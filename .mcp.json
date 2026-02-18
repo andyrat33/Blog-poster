@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "linkedin-poster": {
+      "command": "python3",
+      "args": ["/Users/andy/Workflows/Blog-poster/linkedin_mcp.py"]
+    }
+  }
+}
