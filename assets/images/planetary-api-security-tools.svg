@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" width="100%" style="display:block;max-width:900px" font-family="'Segoe UI', Arial, sans-serif">
+  <!-- Background -->
+  <rect width="900" height="380" fill="#0f1117" rx="12"/>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" fill="#e2e8f0" font-size="15" font-weight="bold">Security Scanning — Tools and Data Flow</text>
+
+  <!-- Left column: scanning tools -->
+  <!-- Semgrep box -->
+  <rect x="30" y="60" width="180" height="100" rx="10" fill="#14532d" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="120" y="85" text-anchor="middle" fill="#86efac" font-size="13" font-weight="bold">Semgrep</text>
+  <text x="120" y="103" text-anchor="middle" fill="#bbf7d0" font-size="10">Static Analysis (SAST)</text>
+  <text x="120" y="120" text-anchor="middle" fill="#6ee7b7" font-size="10">semgrep scan --sarif</text>
+  <text x="120" y="137" text-anchor="middle" fill="#6ee7b7" font-size="10">Detects code vulns</text>
+  <text x="120" y="151" text-anchor="middle" fill="#4ade80" font-size="9">+ GitHub Actions (PRs)</text>
+
+  <!-- Snyk box -->
+  <rect x="30" y="180" width="180" height="100" rx="10" fill="#14532d" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="120" y="205" text-anchor="middle" fill="#86efac" font-size="13" font-weight="bold">Snyk</text>
+  <text x="120" y="223" text-anchor="middle" fill="#bbf7d0" font-size="10">Software Composition (SCA)</text>
+  <text x="120" y="240" text-anchor="middle" fill="#6ee7b7" font-size="10">snyk test (requirements.txt)</text>
+  <text x="120" y="257" text-anchor="middle" fill="#6ee7b7" font-size="10">CycloneDX SBOM output</text>
+  <text x="120" y="271" text-anchor="middle" fill="#4ade80" font-size="9">Dep vulnerability scanning</text>
+
+  <!-- Postman box -->
+  <rect x="30" y="300" width="180" height="60" rx="10" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="120" y="322" text-anchor="middle" fill="#93c5fd" font-size="13" font-weight="bold">Postman / Newman</text>
+  <text x="120" y="340" text-anchor="middle" fill="#bfdbfe" font-size="10">Dynamic API testing</text>
+  <text x="120" y="353" text-anchor="middle" fill="#93c5fd" font-size="9">SQLi, CMDi, XSS checks</text>
+
+  <!-- Conversion step -->
+  <rect x="260" y="70" width="130" height="70" rx="8" fill="#1a1a2e" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="325" y="96" text-anchor="middle" fill="#a5b4fc" font-size="11" font-weight="bold">sarif_to_asff.py</text>
+  <text x="325" y="113" text-anchor="middle" fill="#818cf8" font-size="10">SARIF → ASFF</text>
+  <text x="325" y="128" text-anchor="middle" fill="#6366f1" font-size="9">format conversion</text>
+
+  <rect x="260" y="190" width="130" height="70" rx="8" fill="#1a1a2e" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="325" y="216" text-anchor="middle" fill="#a5b4fc" font-size="11" font-weight="bold">snyk_to_asff.py</text>
+  <text x="325" y="233" text-anchor="middle" fill="#818cf8" font-size="10">JSON → ASFF</text>
+  <text x="325" y="248" text-anchor="middle" fill="#6366f1" font-size="9">format conversion</text>
+
+  <!-- Arrows: tools to converters -->
+  <path d="M210 100 L258 100" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowg)"/>
+  <path d="M210 220 L258 220" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowg)"/>
+  <path d="M210 330 L450 330 L450 320" stroke="#475569" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowg)"/>
+
+  <!-- AWS Security Hub central box -->
+  <rect x="440" y="100" width="200" height="220" rx="12" fill="#1e1b4b" stroke="#6366f1" stroke-width="2"/>
+  <text x="540" y="128" text-anchor="middle" fill="#a5b4fc" font-size="13" font-weight="bold">AWS Security Hub</text>
+  <line x1="450" y1="136" x2="630" y2="136" stroke="#4338ca" stroke-width="1"/>
+  <text x="540" y="158" text-anchor="middle" fill="#818cf8" font-size="10">Centralised findings store</text>
+
+  <rect x="455" y="168" width="170" height="28" rx="5" fill="#312e81" stroke="#818cf8" stroke-width="1"/>
+  <text x="540" y="187" text-anchor="middle" fill="#c7d2fe" font-size="10">ASFF findings ingestion</text>
+
+  <rect x="455" y="204" width="170" height="28" rx="5" fill="#312e81" stroke="#818cf8" stroke-width="1"/>
+  <text x="540" y="223" text-anchor="middle" fill="#c7d2fe" font-size="10">Severity classification</text>
+
+  <rect x="455" y="240" width="170" height="28" rx="5" fill="#312e81" stroke="#818cf8" stroke-width="1"/>
+  <text x="540" y="259" text-anchor="middle" fill="#c7d2fe" font-size="10">WorkflowStatus tracking</text>
+
+  <rect x="455" y="276" width="170" height="28" rx="5" fill="#7c3aed" stroke="#a78bfa" stroke-width="1"/>
+  <text x="540" y="295" text-anchor="middle" fill="#ede9fe" font-size="10" font-weight="bold">Security Gate queries</text>
+
+  <!-- Arrows: converters to Security Hub -->
+  <path d="M390 100 L438 130" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowg)"/>
+  <path d="M390 220 L438 220" stroke="#6366f1" stroke-width="1.5" marker-end="url(#arrowg)"/>
+
+  <!-- S3 box -->
+  <rect x="700" y="120" width="160" height="120" rx="10" fill="#1a2535" stroke="#0ea5e9" stroke-width="1.5"/>
+  <text x="780" y="145" text-anchor="middle" fill="#7dd3fc" font-size="12" font-weight="bold">S3 Artifact Store</text>
+  <line x1="710" y1="153" x2="850" y2="153" stroke="#0284c7" stroke-width="1"/>
+  <text x="780" y="172" text-anchor="middle" fill="#bae6fd" font-size="10">SARIF reports</text>
+  <text x="780" y="188" text-anchor="middle" fill="#bae6fd" font-size="10">ASFF JSON</text>
+  <text x="780" y="204" text-anchor="middle" fill="#bae6fd" font-size="10">CycloneDX SBOM</text>
+  <text x="780" y="220" text-anchor="middle" fill="#bae6fd" font-size="10">Newman HTML reports</text>
+
+  <!-- Arrow: Security Hub to S3 -->
+  <path d="M640 200 L698 200" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowg)"/>
+
+  <!-- Pre-commit / dev tools at bottom -->
+  <rect x="440" y="345" width="420" height="25" rx="6" fill="#1f2937" stroke="#374151" stroke-width="1"/>
+  <text x="650" y="362" text-anchor="middle" fill="#9ca3af" font-size="10">Local dev: Talisman (secret scan pre-push) + Black + Flake8 (pre-commit)</text>
+
+  <defs>
+    <marker id="arrowg" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#475569"/>
+    </marker>
+  </defs>
+</svg>

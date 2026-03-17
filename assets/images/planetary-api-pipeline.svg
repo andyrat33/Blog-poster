@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 420" width="100%" style="display:block;max-width:1100px" font-family="'Segoe UI', Arial, sans-serif">
+  <!-- Background -->
+  <rect width="1100" height="420" fill="#0f1117" rx="12"/>
+
+  <!-- Title -->
+  <text x="550" y="32" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="bold">Planetary API — AWS CodePipeline (10 Stages)</text>
+
+  <!-- Stage boxes — row 1: stages 1-5 -->
+  <!-- Stage 1: Source -->
+  <rect x="20" y="60" width="110" height="60" rx="8" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="75" y="84" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="bold">Stage 1</text>
+  <text x="75" y="100" text-anchor="middle" fill="#e2e8f0" font-size="12">Source</text>
+  <text x="75" y="114" text-anchor="middle" fill="#64748b" font-size="10">GitHub (master)</text>
+
+  <!-- Arrow -->
+  <path d="M130 90 L148 90" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 2: Build -->
+  <rect x="150" y="60" width="110" height="60" rx="8" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="205" y="84" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="bold">Stage 2</text>
+  <text x="205" y="100" text-anchor="middle" fill="#e2e8f0" font-size="12">Build</text>
+  <text x="205" y="114" text-anchor="middle" fill="#64748b" font-size="10">Docker → ECR</text>
+
+  <!-- Arrow -->
+  <path d="M260 90 L278 90" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 3: SecurityScan (wider, 3 parallel) -->
+  <rect x="280" y="50" width="200" height="80" rx="8" fill="#1f2d1a" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="380" y="72" text-anchor="middle" fill="#86efac" font-size="11" font-weight="bold">Stage 3 — SecurityScan</text>
+  <rect x="290" y="80" width="52" height="36" rx="5" fill="#14532d" stroke="#16a34a" stroke-width="1"/>
+  <text x="316" y="96" text-anchor="middle" fill="#bbf7d0" font-size="9" font-weight="bold">Semgrep</text>
+  <text x="316" y="108" text-anchor="middle" fill="#86efac" font-size="8">SAST</text>
+  <rect x="354" y="80" width="52" height="36" rx="5" fill="#14532d" stroke="#16a34a" stroke-width="1"/>
+  <text x="380" y="96" text-anchor="middle" fill="#bbf7d0" font-size="9" font-weight="bold">Snyk</text>
+  <text x="380" y="108" text-anchor="middle" fill="#86efac" font-size="8">SCA</text>
+  <rect x="418" y="80" width="52" height="36" rx="5" fill="#14532d" stroke="#16a34a" stroke-width="1"/>
+  <text x="444" y="96" text-anchor="middle" fill="#bbf7d0" font-size="9" font-weight="bold">Postman</text>
+  <text x="444" y="108" text-anchor="middle" fill="#86efac" font-size="8">Dyn Tests</text>
+
+  <!-- Arrow -->
+  <path d="M480 90 L498 90" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 4: SecurityGate -->
+  <rect x="500" y="60" width="110" height="60" rx="8" fill="#3b1f1f" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="555" y="84" text-anchor="middle" fill="#fca5a5" font-size="11" font-weight="bold">Stage 4</text>
+  <text x="555" y="100" text-anchor="middle" fill="#e2e8f0" font-size="12">Security Gate</text>
+  <text x="555" y="114" text-anchor="middle" fill="#64748b" font-size="10">HIGH/CRIT block</text>
+
+  <!-- Arrow -->
+  <path d="M610 90 L628 90" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 5: ManualApproval -->
+  <rect x="630" y="60" width="110" height="60" rx="8" fill="#2d2416" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="685" y="84" text-anchor="middle" fill="#fcd34d" font-size="11" font-weight="bold">Stage 5</text>
+  <text x="685" y="100" text-anchor="middle" fill="#e2e8f0" font-size="12">Manual Approval</text>
+  <text x="685" y="114" text-anchor="middle" fill="#64748b" font-size="10">SNS email</text>
+
+  <!-- Arrow down to row 2 -->
+  <path d="M740 120 L740 165" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage boxes — row 2: stages 6-10 (right to left) -->
+  <!-- Stage 6: SmokeTest -->
+  <rect x="630" y="170" width="110" height="60" rx="8" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="685" y="194" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="bold">Stage 6</text>
+  <text x="685" y="210" text-anchor="middle" fill="#e2e8f0" font-size="12">Smoke Test</text>
+  <text x="685" y="224" text-anchor="middle" fill="#64748b" font-size="10">Newman / Postman</text>
+
+  <!-- Arrow left -->
+  <path d="M630 200 L612 200" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowl)"/>
+
+  <!-- Stage 7: Deploy -->
+  <rect x="500" y="170" width="110" height="60" rx="8" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="555" y="194" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="bold">Stage 7</text>
+  <text x="555" y="210" text-anchor="middle" fill="#e2e8f0" font-size="12">Deploy</text>
+  <text x="555" y="224" text-anchor="middle" fill="#64748b" font-size="10">ECS Fargate</text>
+
+  <!-- Arrow left -->
+  <path d="M500 200 L482 200" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowl)"/>
+
+  <!-- Stage 8: DbMigrate -->
+  <rect x="370" y="170" width="110" height="60" rx="8" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="425" y="194" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="bold">Stage 8</text>
+  <text x="425" y="210" text-anchor="middle" fill="#e2e8f0" font-size="12">DB Migrate</text>
+  <text x="425" y="224" text-anchor="middle" fill="#64748b" font-size="10">ECS one-off task</text>
+
+  <!-- Arrow left -->
+  <path d="M370 200 L352 200" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowl)"/>
+
+  <!-- Stage 9: Lockdown -->
+  <rect x="240" y="170" width="110" height="60" rx="8" fill="#2d1f3d" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="295" y="194" text-anchor="middle" fill="#d8b4fe" font-size="11" font-weight="bold">Stage 9</text>
+  <text x="295" y="210" text-anchor="middle" fill="#e2e8f0" font-size="12">Lockdown</text>
+  <text x="295" y="224" text-anchor="middle" fill="#64748b" font-size="10">ALB SG restrict</text>
+
+  <!-- Arrow left -->
+  <path d="M240 200 L222 200" stroke="#475569" stroke-width="1.5" marker-end="url(#arrowl)"/>
+
+  <!-- Stage 10: Verify -->
+  <rect x="110" y="170" width="110" height="60" rx="8" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="165" y="194" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="bold">Stage 10</text>
+  <text x="165" y="210" text-anchor="middle" fill="#e2e8f0" font-size="12">Verify</text>
+  <text x="165" y="224" text-anchor="middle" fill="#64748b" font-size="10">Health check</text>
+
+  <!-- Security Hub side panel -->
+  <rect x="780" y="50" width="160" height="190" rx="10" fill="#1a1f2e" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="860" y="72" text-anchor="middle" fill="#a5b4fc" font-size="12" font-weight="bold">AWS Security Hub</text>
+  <line x1="790" y1="80" x2="930" y2="80" stroke="#374151" stroke-width="1"/>
+  <text x="860" y="100" text-anchor="middle" fill="#818cf8" font-size="10">Findings aggregation</text>
+
+  <rect x="795" y="110" width="130" height="28" rx="5" fill="#14532d" stroke="#16a34a" stroke-width="1"/>
+  <text x="860" y="129" text-anchor="middle" fill="#bbf7d0" font-size="10">Semgrep ASFF import</text>
+
+  <rect x="795" y="145" width="130" height="28" rx="5" fill="#14532d" stroke="#16a34a" stroke-width="1"/>
+  <text x="860" y="164" text-anchor="middle" fill="#bbf7d0" font-size="10">Snyk ASFF import</text>
+
+  <rect x="795" y="180" width="130" height="28" rx="5" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1"/>
+  <text x="860" y="199" text-anchor="middle" fill="#93c5fd" font-size="10">S3 Artifact Store</text>
+
+  <!-- Dotted connector from SecurityScan to Security Hub -->
+  <path d="M480 80 L780 80" stroke="#22c55e" stroke-width="1" stroke-dasharray="5,4"/>
+  <path d="M555 120 L555 155 Q555 165 560 168 L780 155" stroke="#ef4444" stroke-width="1" stroke-dasharray="5,4"/>
+
+  <!-- SSM Override label -->
+  <rect x="780" y="260" width="160" height="65" rx="8" fill="#2d1f0a" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="860" y="280" text-anchor="middle" fill="#fcd34d" font-size="11" font-weight="bold">SSM Override</text>
+  <text x="860" y="296" text-anchor="middle" fill="#e2e8f0" font-size="10">/planetary-api/pipeline/</text>
+  <text x="860" y="310" text-anchor="middle" fill="#e2e8f0" font-size="10">security-override</text>
+  <text x="860" y="324" text-anchor="middle" fill="#fbbf24" font-size="9">default: "false"</text>
+
+  <!-- CDK Stacks legend -->
+  <rect x="20" y="290" width="720" height="100" rx="8" fill="#111827" stroke="#374151" stroke-width="1"/>
+  <text x="30" y="310" fill="#9ca3af" font-size="11" font-weight="bold">CDK Stacks</text>
+  <rect x="30" y="318" width="12" height="12" rx="2" fill="#3b82f6"/>
+  <text x="48" y="329" fill="#e2e8f0" font-size="10">PlanetaryEcr — ECR repository</text>
+  <rect x="30" y="338" width="12" height="12" rx="2" fill="#22c55e"/>
+  <text x="48" y="349" fill="#e2e8f0" font-size="10">PlanetaryEcs — VPC, ECS Fargate cluster, ALB, RDS MySQL 8.0</text>
+  <rect x="30" y="358" width="12" height="12" rx="2" fill="#a855f7"/>
+  <text x="48" y="369" fill="#e2e8f0" font-size="10">PlanetaryPipeline — CodePipeline, CodeBuild projects, S3, SNS, SSM, IAM</text>
+
+  <!-- Markers -->
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#475569"/>
+    </marker>
+    <marker id="arrowl" markerWidth="8" markerHeight="8" refX="2" refY="3" orient="auto">
+      <path d="M8,0 L8,6 L0,3 z" fill="#475569"/>
+    </marker>
+  </defs>
+</svg>
