@@ -2,7 +2,7 @@
   "mcpServers": {
     "linkedin-poster": {
       "command": "python3",
-      "args": ["/Users/andy/Workflows/Blog-poster/linkedin_mcp.py"]
+      "args": ["/Users/andy/AI/workflows/Blog-poster/linkedin_mcp.py"]
     }
   }
 }

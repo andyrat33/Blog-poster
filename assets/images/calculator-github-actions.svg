@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 360" font-family="monospace, sans-serif">
+  <!-- Background -->
+  <rect width="780" height="360" fill="#0f1117" rx="10"/>
+
+  <!-- Title -->
+  <text x="390" y="32" text-anchor="middle" fill="#e2e8f0" font-size="15" font-weight="bold">GitHub Actions Pipeline — CalculatorLibrary</text>
+
+  <!-- Trigger -->
+  <rect x="300" y="52" width="180" height="44" rx="8" fill="#1e2533" stroke="#64748b" stroke-width="1.5"/>
+  <text x="390" y="70" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="bold">git push / pull request</text>
+  <text x="390" y="86" text-anchor="middle" fill="#475569" font-size="10">triggers all three workflows</text>
+
+  <!-- Branch lines down -->
+  <line x1="390" y1="96" x2="390" y2="120" stroke="#475569" stroke-width="1.5"/>
+  <line x1="130" y1="120" x2="650" y2="120" stroke="#475569" stroke-width="1.5"/>
+  <line x1="130" y1="120" x2="130" y2="148" stroke="#475569" stroke-width="1.5"/>
+  <line x1="390" y1="120" x2="390" y2="148" stroke="#475569" stroke-width="1.5"/>
+  <line x1="650" y1="120" x2="650" y2="148" stroke="#475569" stroke-width="1.5"/>
+
+  <!-- Workflow 1: pytest -->
+  <rect x="30" y="148" width="200" height="130" rx="8" fill="#1e2a3a" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="130" y="170" text-anchor="middle" fill="#93c5fd" font-size="12" font-weight="bold">pytest.yml</text>
+  <text x="130" y="190" text-anchor="middle" fill="#64748b" font-size="10">Python 3.10.13</text>
+  <rect x="45" y="200" width="170" height="18" rx="4" fill="#0f2040"/>
+  <text x="130" y="213" text-anchor="middle" fill="#60a5fa" font-size="10">16 unit tests</text>
+  <rect x="45" y="222" width="170" height="18" rx="4" fill="#0f2040"/>
+  <text x="130" y="235" text-anchor="middle" fill="#60a5fa" font-size="10">17 integration tests</text>
+  <rect x="45" y="244" width="170" height="18" rx="4" fill="#14290a"/>
+  <text x="130" y="257" text-anchor="middle" fill="#4ade80" font-size="10">85% per-file · 90% overall</text>
+
+  <!-- Workflow 2: Docker -->
+  <rect x="290" y="148" width="200" height="130" rx="8" fill="#2a1e0a" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="390" y="170" text-anchor="middle" fill="#fcd34d" font-size="12" font-weight="bold">docker-build.yml</text>
+  <text x="390" y="190" text-anchor="middle" fill="#64748b" font-size="10">ubuntu-latest</text>
+  <rect x="305" y="200" width="170" height="18" rx="4" fill="#2a1500"/>
+  <text x="390" y="213" text-anchor="middle" fill="#fb923c" font-size="10">actions/checkout@v4</text>
+  <rect x="305" y="222" width="170" height="18" rx="4" fill="#2a1500"/>
+  <text x="390" y="235" text-anchor="middle" fill="#fb923c" font-size="10">docker build -t calculator-api .</text>
+  <rect x="305" y="244" width="170" height="18" rx="4" fill="#2a1500"/>
+  <text x="390" y="257" text-anchor="middle" fill="#fb923c" font-size="10">python:3.12-slim · port 8000</text>
+
+  <!-- Workflow 3: Semgrep -->
+  <rect x="550" y="148" width="200" height="130" rx="8" fill="#2a1a2a" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="650" y="170" text-anchor="middle" fill="#c4b5fd" font-size="12" font-weight="bold">semgrep.yml</text>
+  <text x="650" y="190" text-anchor="middle" fill="#64748b" font-size="10">SAST on push to main</text>
+  <rect x="565" y="200" width="170" height="18" rx="4" fill="#1a0a2a"/>
+  <text x="650" y="213" text-anchor="middle" fill="#a78bfa" font-size="10">returntocorp/semgrep-action@v1</text>
+  <rect x="565" y="222" width="170" height="18" rx="4" fill="#1a0a2a"/>
+  <text x="650" y="235" text-anchor="middle" fill="#a78bfa" font-size="10">audit mode (non-blocking)</text>
+  <rect x="565" y="244" width="170" height="18" rx="4" fill="#1a0a2a"/>
+  <text x="650" y="257" text-anchor="middle" fill="#a78bfa" font-size="10">results → Semgrep platform</text>
+
+  <!-- Status outputs -->
+  <line x1="130" y1="278" x2="130" y2="308" stroke="#475569" stroke-width="1.5"/>
+  <line x1="390" y1="278" x2="390" y2="308" stroke="#475569" stroke-width="1.5"/>
+  <line x1="650" y1="278" x2="650" y2="308" stroke="#475569" stroke-width="1.5"/>
+
+  <rect x="54" y="308" width="152" height="28" rx="6" fill="#14290a" stroke="#22c55e" stroke-width="1"/>
+  <text x="130" y="326" text-anchor="middle" fill="#4ade80" font-size="11" font-weight="bold">✓ Tests pass</text>
+
+  <rect x="314" y="308" width="152" height="28" rx="6" fill="#14290a" stroke="#22c55e" stroke-width="1"/>
+  <text x="390" y="326" text-anchor="middle" fill="#4ade80" font-size="11" font-weight="bold">✓ Image builds</text>
+
+  <rect x="574" y="308" width="152" height="28" rx="6" fill="#14290a" stroke="#22c55e" stroke-width="1"/>
+  <text x="650" y="326" text-anchor="middle" fill="#4ade80" font-size="11" font-weight="bold">✓ No findings</text>
+</svg>

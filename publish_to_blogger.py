@@ -52,11 +52,17 @@ def extract_title(html: str) -> str:
 
 def extract_body(html: str) -> str:
     match = re.search(r"<body>(.*?)</body>", html, re.DOTALL | re.IGNORECASE)
-    return match.group(1).strip() if match else html
+    body = match.group(1).strip() if match else html
+    # Blogger inserts the post title itself — strip the <h1> to avoid it appearing twice
+    body = re.sub(r"<h1[^>]*>.*?</h1>", "", body, count=1, flags=re.DOTALL | re.IGNORECASE)
+    return body.strip()
 
 
 def inline_local_images(html: str, draft_path: Path) -> str:
-    """Replace local image src paths with inline SVG content or base64 data URIs."""
+    """Replace local image src paths with base64 data URIs. SVGs are rasterised to PNG
+    so Blogger's content sanitiser doesn't strip them."""
+    import base64
+    import cairosvg
     draft_dir = draft_path.parent
 
     def replace_img(match):
@@ -65,7 +71,6 @@ def inline_local_images(html: str, draft_path: Path) -> str:
         if not src_match:
             return tag
         src = src_match.group(1)
-        # Only handle local (non-http) paths
         if src.startswith("http://") or src.startswith("https://") or src.startswith("data:"):
             return tag
         img_path = (draft_dir / src).resolve()
@@ -73,28 +78,18 @@ def inline_local_images(html: str, draft_path: Path) -> str:
             print(f"  Warning: image not found: {img_path}")
             return tag
         if img_path.suffix.lower() == ".svg":
-            # Inline the SVG directly, preserving alt and style from the <img> tag
-            alt_match = re.search(r'alt=["\']([^"\']*)["\']', tag)
-            style_match = re.search(r'style=["\']([^"\']*)["\']', tag)
-            svg_content = img_path.read_text(encoding="utf-8")
-            # Inject style and aria-label onto the <svg> root element
-            extra = ""
-            if style_match:
-                extra += f' style="{style_match.group(1)}"'
-            if alt_match:
-                extra += f' aria-label="{alt_match.group(1)}"'
-            svg_content = re.sub(r"^<svg\b", f"<svg{extra}", svg_content, count=1)
-            return svg_content
+            # Rasterise SVG → PNG so Blogger doesn't strip the SVG element
+            png_bytes = cairosvg.svg2png(url=str(img_path), scale=2)
+            b64 = base64.b64encode(png_bytes).decode()
+            return re.sub(r'src=["\'][^"\']+["\']', f'src="data:image/png;base64,{b64}"', tag)
         else:
-            # Base64-encode other image types
-            import base64
             suffix = img_path.suffix.lower().lstrip(".")
             mime = {"png": "image/png", "jpg": "image/jpeg", "jpeg": "image/jpeg",
                     "gif": "image/gif", "webp": "image/webp"}.get(suffix, "image/png")
             b64 = base64.b64encode(img_path.read_bytes()).decode()
             return re.sub(r'src=["\'][^"\']+["\']', f'src="data:{mime};base64,{b64}"', tag)
 
-    return re.sub(r'<img\b[^>]*>', replace_img, html)
+    return re.sub(r'<img\b[^>]*/?>', replace_img, html)
 
 
 def find_existing_post(service, blog_id: str, title: str) -> str | None:

